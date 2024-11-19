@@ -1,17 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 func command_login(s *state, cmd command) error {
 	if len(cmd.arguments) == 0 {
 		return fmt.Errorf("invalid argument: command must have 1 argument")
 	}
 
-	if err := s.cfg.SetUser(cmd.arguments[0]); err != nil {
+	user, err := s.dbQueries.GetUser(context.Background(), cmd.arguments[0])
+	if err != nil {
 		return err
 	}
 
-	fmt.Printf("username has been set to %s\n", s.cfg.CurrentUserName)
+	if err := s.cfg.SetUser(user.Name); err != nil {
+		return err
+	}
+
+	fmt.Printf("user %s has logged in\n", s.cfg.CurrentUserName)
 
 	return nil
 }

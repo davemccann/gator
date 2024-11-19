@@ -30,9 +30,7 @@ func (cmds *commands) run(s *state, cmd command) error {
 		return fmt.Errorf("could not find function for command - name: %s", cmd.name)
 	}
 
-	fn(s, cmd)
-
-	return nil
+	return fn(s, cmd)
 }
 
 func createCommandsInstance() commands {

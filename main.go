@@ -1,15 +1,27 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/davemccann/blog-aggregator/internal/config"
+	"github.com/davemccann/blog-aggregator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func registerCommands(cmds *commands) error {
-	return cmds.register("login", command_login)
+
+	if err := cmds.register("login", command_login); err != nil {
+		return err
+	}
+
+	if err := cmds.register("register", command_register); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func processCLIArguments(appState *state, cmds *commands) error {
@@ -39,8 +51,15 @@ func main() {
 		log.Fatal(err)
 	}
 
+	db, err := sql.Open("postgres", cfg.DbURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbQueries := database.New(db)
+
 	appState := state{
-		cfg: &cfg,
+		dbQueries: dbQueries,
+		cfg:       &cfg,
 	}
 
 	commands := createCommandsInstance()
