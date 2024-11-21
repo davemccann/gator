@@ -31,6 +31,10 @@ func registerCommands(cmds *commands) error {
 			commandName: "users",
 			callbackFn:  command_listusers,
 		},
+		{
+			commandName: "agg",
+			callbackFn:  command_agg,
+		},
 	}
 
 	for _, mapping := range commandMappings {
