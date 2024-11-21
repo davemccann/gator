@@ -31,10 +31,22 @@ func command_register(s *state, cmd command) error {
 		return err
 	}
 
-	fmt.Printf("user has been registered:\n - name: %v\n", user)
+	printUser(&user)
 
 	s.cfg.SetUser(user.Name)
 	fmt.Printf("updated config with user: %s\n", user.Name)
 
 	return nil
+}
+
+func printUser(user *database.User) {
+	outputFormat := `
+User has been registered:
+* ID:           %s
+* Name:         %s
+* Created:      %v
+* Updated:      %v
+
+`
+	fmt.Printf(outputFormat, user.ID, user.Name, user.CreatedAt, user.UpdatedAt)
 }
