@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 
@@ -12,17 +11,32 @@ import (
 )
 
 func registerCommands(cmds *commands) error {
-
-	if err := cmds.register("login", command_login); err != nil {
-		return err
+	commandMappings := []struct {
+		commandName string
+		callbackFn  func(*state, command) error
+	}{
+		{
+			commandName: "login",
+			callbackFn:  command_login,
+		},
+		{
+			commandName: "register",
+			callbackFn:  command_register,
+		},
+		{
+			commandName: "reset",
+			callbackFn:  command_reset,
+		},
+		{
+			commandName: "users",
+			callbackFn:  command_listusers,
+		},
 	}
 
-	if err := cmds.register("register", command_register); err != nil {
-		return err
-	}
-
-	if err := cmds.register("reset", command_reset); err != nil {
-		return err
+	for _, mapping := range commandMappings {
+		if err := cmds.register(mapping.commandName, mapping.callbackFn); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -70,6 +84,4 @@ func main() {
 	if err := processCLIArguments(&appState, &commands); err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("Config Output: - CurrentUserName: %s - DbURL %s\n", appState.cfg.CurrentUserName, appState.cfg.DbURL)
 }
