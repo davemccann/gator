@@ -16,8 +16,8 @@ func command_register(s *state, cmd command) error {
 
 	userParams := database.CreateUserParams{
 		ID:        uuid.New(),
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
 		Name:      cmd.arguments[0],
 	}
 

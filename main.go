@@ -35,6 +35,10 @@ func registerCommands(cmds *commands) error {
 			commandName: "agg",
 			callbackFn:  command_agg,
 		},
+		{
+			commandName: "addfeed",
+			callbackFn:  command_addfeed,
+		},
 	}
 
 	for _, mapping := range commandMappings {
