@@ -21,6 +21,10 @@ func registerCommands(cmds *commands) error {
 		return err
 	}
 
+	if err := cmds.register("reset", command_reset); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -31,10 +35,6 @@ func processCLIArguments(appState *state, cmds *commands) error {
 
 	commandName := os.Args[1]
 	args := os.Args[2:]
-
-	if len(args) == 0 {
-		log.Fatalf("invalid number of arguments for command: %s", commandName)
-	}
 
 	cmd := command{
 		name:      commandName,
