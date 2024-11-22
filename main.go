@@ -43,6 +43,14 @@ func registerCommands(cmds *commands) error {
 			commandName: "feeds",
 			callbackFn:  command_listfeeds,
 		},
+		{
+			commandName: "follow",
+			callbackFn:  command_follow,
+		},
+		{
+			commandName: "following",
+			callbackFn:  command_following,
+		},
 	}
 
 	for _, mapping := range commandMappings {
