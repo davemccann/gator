@@ -11,6 +11,20 @@ type commands struct {
 	commandFuncs map[string]func(*state, command) error
 }
 
+func (cmds *commands) registerCommands(commandMap *map[string]func(*state, command) error) error {
+	if commandMap == nil {
+		return fmt.Errorf("command map is nil")
+	}
+
+	for name, fn := range *commandMap {
+		if err := cmds.register(name, fn); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (cmds *commands) register(name string, fn func(*state, command) error) error {
 	if fn == nil {
 		return fmt.Errorf("function param to register is nil - name: %s", name)

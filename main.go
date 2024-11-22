@@ -11,52 +11,20 @@ import (
 )
 
 func registerCommands(cmds *commands) error {
-	commandMappings := []struct {
-		commandName string
-		callbackFn  func(*state, command) error
-	}{
-		{
-			commandName: "login",
-			callbackFn:  command_login,
-		},
-		{
-			commandName: "register",
-			callbackFn:  command_register,
-		},
-		{
-			commandName: "reset",
-			callbackFn:  command_reset,
-		},
-		{
-			commandName: "users",
-			callbackFn:  command_listusers,
-		},
-		{
-			commandName: "agg",
-			callbackFn:  command_agg,
-		},
-		{
-			commandName: "addfeed",
-			callbackFn:  command_addfeed,
-		},
-		{
-			commandName: "feeds",
-			callbackFn:  command_listfeeds,
-		},
-		{
-			commandName: "follow",
-			callbackFn:  command_follow,
-		},
-		{
-			commandName: "following",
-			callbackFn:  command_following,
-		},
+	commandMap := map[string]func(*state, command) error{
+		"login":     command_login,
+		"register":  command_register,
+		"reset":     command_reset,
+		"users":     command_listusers,
+		"agg":       command_agg,
+		"addfeed":   command_addfeed,
+		"feeds":     command_listfeeds,
+		"follow":    command_follow,
+		"following": command_following,
 	}
 
-	for _, mapping := range commandMappings {
-		if err := cmds.register(mapping.commandName, mapping.callbackFn); err != nil {
-			return err
-		}
+	if err := cmds.registerCommands(&commandMap); err != nil {
+		return err
 	}
 
 	return nil
