@@ -17,10 +17,10 @@ func registerCommands(cmds *commands) error {
 		"reset":     command_reset,
 		"users":     command_listusers,
 		"agg":       command_agg,
-		"addfeed":   command_addfeed,
+		"addfeed":   authenticateUser(command_addfeed),
 		"feeds":     command_listfeeds,
-		"follow":    command_follow,
-		"following": command_following,
+		"follow":    authenticateUser(command_follow),
+		"following": authenticateUser(command_following),
 	}
 
 	if err := cmds.registerCommands(&commandMap); err != nil {

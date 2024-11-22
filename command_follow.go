@@ -9,17 +9,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func command_follow(s *state, cmd command) error {
+func command_follow(s *state, cmd command, user *database.User) error {
 	if len(cmd.arguments) == 0 {
 		return fmt.Errorf("invalid arguments: listfeeds requires a URL as an argument")
 	}
 
 	feedURL := cmd.arguments[0]
-
-	user, err := s.dbQueries.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return err
-	}
 
 	feed, err := s.dbQueries.GetFeedByURL(context.Background(), feedURL)
 	if err != nil {

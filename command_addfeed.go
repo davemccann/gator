@@ -9,18 +9,13 @@ import (
 	"github.com/google/uuid"
 )
 
-func command_addfeed(s *state, cmd command) error {
+func command_addfeed(s *state, cmd command, user *database.User) error {
 	if len(cmd.arguments) != 2 {
 		return fmt.Errorf("invalid number of arguments: addfeed requires 'feed name' and 'url'")
 	}
 
 	feedName := cmd.arguments[0]
 	feedURL := cmd.arguments[1]
-
-	user, err := s.dbQueries.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return err
-	}
 
 	feedParams := database.CreateFeedParams{
 		ID:        uuid.New(),

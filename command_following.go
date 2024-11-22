@@ -3,16 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/davemccann/blog-aggregator/internal/database"
 )
 
-func command_following(s *state, _ command) error {
+func command_following(s *state, _ command, user *database.User) error {
 	if s.cfg.CurrentUserName == "" {
 		return fmt.Errorf("no user is currently logged in")
-	}
-
-	user, err := s.dbQueries.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return err
 	}
 
 	feeds, err := s.dbQueries.GetFeedFollowsByUser(context.Background(), user.ID)
