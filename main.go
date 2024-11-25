@@ -22,6 +22,7 @@ func registerCommands(cmds *commands) error {
 		"follow":    authenticateUser(command_follow),
 		"following": authenticateUser(command_following),
 		"unfollow":  authenticateUser(command_unfollow),
+		"browse":    authenticateUser(command_browse),
 	}
 
 	if err := cmds.registerCommands(&commandMap); err != nil {
