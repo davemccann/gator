@@ -13,3 +13,14 @@ WHERE url = $1 LIMIT 1;
 
 -- name: GetFeeds :many
 SELECT * FROM feeds;
+
+-- name: MarkFeedFetched :exec
+UPDATE feeds
+SET 
+    last_fetched_at = NOW(),
+    updated_at = NOW()
+WHERE feeds.id = $1;
+
+-- name: GetNextFeed :one
+SELECT * FROM feeds
+ORDER BY last_fetched_at ASC NULLS FIRST;
