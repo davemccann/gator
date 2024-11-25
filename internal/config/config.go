@@ -2,12 +2,14 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
 	"path"
 )
 
 const (
-	configFilename = ".gatorconfig.json"
+	configFilename     = ".gatorconfig.json"
+	defaultDatabaseURL = "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable"
 )
 
 type Config struct {
@@ -28,6 +30,39 @@ func getConfigFilepath() (string, error) {
 	filepath := path.Join(userHomeDir, configFilename)
 
 	return filepath, nil
+}
+
+func EnsureConfigExists() error {
+	filepath, err := getConfigFilepath()
+	if err != nil {
+		return err
+	}
+
+	file, err := os.OpenFile(filepath, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0666)
+	if err != nil {
+		if errors.Is(err, os.ErrExist) {
+			return nil
+		}
+		return err
+	}
+
+	defer file.Close()
+
+	cfg := Config{
+		DbURL:           defaultDatabaseURL,
+		CurrentUserName: "",
+	}
+
+	bytes, err := json.Marshal(&cfg)
+	if err != nil {
+		return err
+	}
+
+	if _, err := file.Write(bytes); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func ReadConfig() (Config, error) {

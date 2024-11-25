@@ -50,6 +50,10 @@ func processCLIArguments(appState *state, cmds *commands) error {
 
 func main() {
 
+	if err := config.EnsureConfigExists(); err != nil {
+		log.Fatal(err)
+	}
+
 	cfg, err := config.ReadConfig()
 	if err != nil {
 		log.Fatal(err)
