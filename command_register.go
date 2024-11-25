@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/davemccann/blog-aggregator/internal/database"
+	"github.com/davemccann/gator/internal/database"
 	"github.com/google/uuid"
 )
 

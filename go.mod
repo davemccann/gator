@@ -1,4 +1,4 @@
-module github.com/davemccann/blog-aggregator
+module github.com/davemccann/gator
 
 go 1.22.5
 

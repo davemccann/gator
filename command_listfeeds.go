@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/davemccann/blog-aggregator/internal/database"
+	"github.com/davemccann/gator/internal/database"
 )
 
 func command_listfeeds(s *state, _ command) error {
