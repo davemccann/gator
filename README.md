@@ -13,11 +13,11 @@ The project requires the Go Programming language (1.22 or later) and PostgreSQL.
 
 ## Installation
 
-Install gator with the command `go install github.com/davemccann/gator@latest`
+Install gator with the command: `go install github.com/davemccann/gator@latest`
 
 ## Running
 
-`gator `
+All commands are in the following format: `gator [COMMAND] [ARGUMENTS]`
 
 ### Commands
 
